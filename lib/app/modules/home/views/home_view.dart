@@ -19,13 +19,13 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: Text(
           'Dashboard',
-          style: blackTextStyle.copyWith(
+          style: whiteTextStyle.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: primaryColor,
         elevation: 0,
         actions: [
           StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -117,6 +117,68 @@ class HomeView extends GetView<HomeController> {
                   const SizedBox(
                     height: 20,
                   ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: StreamBuilder(
+                      stream: controller.stremPresenceToday(),
+                      builder: (context, snapPresenceToday) {
+                        if (snapPresenceToday.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        Map<String, dynamic>? dataToday =
+                            snapPresenceToday.data?.data();
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  'Masuk',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                Text(
+                                  '${dataToday?["check_in"] == null ? '-' : DateFormat('HH:mm').format(DateTime.parse(dataToday?['check_in']?['date']))}',
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: 2,
+                              height: 40,
+                              color: Colors.black,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  'Keluar',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Text(
+                                    '${dataToday?["check_out"] == null ? '-' : DateFormat('HH:mm').format(DateTime.parse(dataToday?['check_out']?['date']))}'),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Menu",
                     style: blackTextStyle.copyWith(
@@ -130,101 +192,104 @@ class HomeView extends GetView<HomeController> {
                   Container(
                     margin: const EdgeInsets.only(bottom: 20),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                              borderRadius: BorderRadius.circular(10),
-                              onTap: () => Get.toNamed(Routes.UPDATE_ISTRI,
-                                  arguments: data),
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.storage,
-                                      color: blackColor,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Data Istri',
-                                      style: blackTextStyle.copyWith(
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            menu(
+                              icon: Icons.woman_2_rounded,
+                              data: data,
+                              judul: 'Data \nIstri',
+                              onTap: () => Get.toNamed(
+                                Routes.UPDATE_ISTRI,
+                                arguments: data,
                               ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            menu(
+                              icon: Icons.child_care_outlined,
+                              data: data,
+                              judul: 'Data \nAnak',
+                              onTap: () => Get.toNamed(
+                                Routes.ANAK,
+                                arguments: data,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            menu(
+                              icon: Icons.book_online,
+                              data: data,
+                              judul: 'Data \nPendidikan',
+                              onTap: () => Get.toNamed(
+                                Routes.RIWAYAT_PENDIDIKAN,
+                                arguments: data,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            menu(
+                              icon: Icons.policy_outlined,
+                              data: data,
+                              judul: 'Data \nKepolisian',
+                              onTap: () => Get.toNamed(
+                                Routes.DATA_KEPOLISIAN,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            menu(
+                                icon: Icons.people,
+                                data: data,
+                                judul: 'Data \nPersonil',
+                                onTap: () => Get.toNamed(
+                                      Routes.LIST_PERSONIL,
+                                      arguments: data,
+                                    )),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            menu(
+                              icon: Icons.fact_check_rounded,
+                              data: data,
+                              judul: 'Data \nAbsensi',
+                              onTap: () => Get.toNamed(Routes.ALL_DATA_ABSENSI),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            menu(
+                              icon: Icons.wallet_outlined,
+                              data: data,
+                              judul: 'Tunjangan \nKinerja',
+                              onTap: () =>
+                                  Get.toNamed(Routes.TUNJANGAN_KINERJA),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            menu(
+                              icon: Icons.report,
+                              data: data,
+                              judul: 'Report \nKinerja',
+                              onTap: () {},
                             ),
                           ],
                         )
                       ],
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: StreamBuilder(
-                        stream: controller.stremPresenceToday(),
-                        builder: (context, snapPresenceToday) {
-                          if (snapPresenceToday.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          Map<String, dynamic>? dataToday =
-                              snapPresenceToday.data?.data();
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    'Masuk',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'Poppins',
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${dataToday?["check_in"] == null ? '-' : DateFormat('HH:mm').format(DateTime.parse(dataToday?['check_in']?['date']))}',
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                width: 2,
-                                height: 40,
-                                color: Colors.black,
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    'Keluar',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'Poppins',
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  Text(
-                                      '${dataToday?["check_out"] == null ? '-' : DateFormat('HH:mm').format(DateTime.parse(dataToday?['check_out']?['date']))}'),
-                                ],
-                              ),
-                            ],
-                          );
-                        }),
                   ),
                   const SizedBox(
                     height: 20,
@@ -254,7 +319,7 @@ class HomeView extends GetView<HomeController> {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        // print('Ini data ${snapPresence.data!.docs}');
+
                         if (snapPresence.data!.docs.isEmpty) {
                           return const Center(
                             child: Text('Belum ada data'),
@@ -271,7 +336,7 @@ class HomeView extends GetView<HomeController> {
                               padding: const EdgeInsets.only(bottom: 20),
                               child: Material(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey[200],
+                                color: Colors.white,
                                 child: InkWell(
                                   onTap: () {
                                     Get.toNamed(Routes.PRESENSI_DETAIL,
@@ -290,9 +355,10 @@ class HomeView extends GetView<HomeController> {
                                           children: [
                                             Text(
                                               'Masuk',
-                                              style: blackTextStyle.copyWith(
+                                              style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: bold,
+                                                color: Colors.green,
                                               ),
                                             ),
                                             Text(dataPresence['check_in']
@@ -304,11 +370,13 @@ class HomeView extends GetView<HomeController> {
                                         ),
                                         Text(
                                             '${DateFormat('dd MMMM yyyy').format(DateTime.parse(dataPresence['date']))}'),
+                                        const SizedBox(height: 10),
                                         Text(
                                           'Keluar',
-                                          style: blackTextStyle.copyWith(
+                                          style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: bold,
+                                            color: Colors.red,
                                           ),
                                         ),
                                         Text(dataPresence['check_out']
@@ -334,40 +402,71 @@ class HomeView extends GetView<HomeController> {
             }
           }),
       bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.fixedCircle,
+        // style: TabStyle.fixedCircle,
         items: [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(
             icon: Icons.fingerprint,
             title: 'Absen',
-            activeIcon: Icons.fingerprint,
           ),
           TabItem(icon: Icons.people, title: 'Profile'),
         ],
         initialActiveIndex: pageController.currentIndex.value,
         onTap: (int i) => pageController.changePage(i),
       ),
-      // floatingActionButton: Obx(
-      //   () => FloatingActionButton(
-      //     onPressed: () async {
-      //       if (controller.isLoading.isFalse) {
-      //         controller.isLoading.value = true;
-      //         await FirebaseAuth.instance.signOut();
-      //         Get.offAllNamed(Routes.LOGIN);
-      //         controller.isLoading.value = false;
-      //         Get.snackbar(
-      //           "Success",
-      //           "Berhasil Logout",
-      //           backgroundColor: Colors.green,
-      //           colorText: Colors.white,
-      //         );
-      //       }
-      //     },
-      //     child: controller.isLoading.isTrue
-      //         ? const CircularProgressIndicator()
-      //         : const Icon(Icons.logout),
-      //   ),
-      // ),
+    );
+  }
+}
+
+class menu extends StatelessWidget {
+  final String judul;
+  final IconData icon;
+  final Function()? onTap;
+
+  menu({
+    super.key,
+    required this.data,
+    required this.onTap,
+    required this.icon,
+    required this.judul,
+  });
+
+  final Map<String, dynamic> data;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(8),
+        width: 70,
+        decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: blackColor,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              judul,
+              style: blackTextStyle.copyWith(
+                fontSize: 10,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

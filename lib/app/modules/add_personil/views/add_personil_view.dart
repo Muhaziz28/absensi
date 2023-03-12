@@ -1,3 +1,4 @@
+import 'package:absensi_project_app/app/widgets/save_button.dart';
 import 'package:absensi_project_app/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class AddPersonilView extends GetView<AddPersonilController> {
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
-        title: const Text('AddPersonilView'),
+        title: const Text('Tambah Personil'),
         centerTitle: true,
         backgroundColor: primaryColor,
       ),
@@ -23,7 +24,9 @@ class AddPersonilView extends GetView<AddPersonilController> {
             controller: controller.namaUser,
             decoration: InputDecoration(
               label: Text("Nama Personil"),
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -31,7 +34,9 @@ class AddPersonilView extends GetView<AddPersonilController> {
             controller: controller.emailUser,
             decoration: InputDecoration(
               label: Text("Email"),
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -39,18 +44,11 @@ class AddPersonilView extends GetView<AddPersonilController> {
             controller: controller.tempatLahir,
             decoration: InputDecoration(
               label: Text("Tempat Lahir"),
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
-          const SizedBox(height: 20),
-          TextFormField(
-            controller: controller.jenisKelamin,
-            decoration: InputDecoration(
-              label: Text("Jenis Kelamin"),
-              border: OutlineInputBorder(),
-            ),
-          ),
-          // dropdown
           const SizedBox(height: 20),
           DropdownButtonFormField(
             style: TextStyle(color: Colors.black),
@@ -105,7 +103,8 @@ class AddPersonilView extends GetView<AddPersonilController> {
               }
             },
           ),
-          ElevatedButton(
+          const SizedBox(height: 20),
+          SaveButton(
             onPressed: () async {
               if (controller.isLoading.isFalse) {
                 await controller.AddPersonil();
@@ -114,9 +113,9 @@ class AddPersonilView extends GetView<AddPersonilController> {
             child: Obx(
               () => controller.isLoading.isTrue
                   ? const CircularProgressIndicator()
-                  : const Text("Tambah Personil"),
+                  : const Text("Tambah", style: TextStyle(color: Colors.white)),
             ),
-          ),
+          )
         ],
       ),
     );

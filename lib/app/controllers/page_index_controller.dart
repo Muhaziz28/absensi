@@ -14,13 +14,9 @@ class PageIndexController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void changePage(int index) async {
-    // print('Index==> $index');
-
     switch (index) {
       case 1:
-        // print('Get Location');
         Map<String, dynamic> data = await determinePosition();
-        // print(data);
         if (data['error'] == true) {
           Get.dialog(
             Center(
@@ -29,6 +25,7 @@ class PageIndexController extends GetxController {
           );
           Get.back();
           Get.snackbar('Error', data['message']);
+          Get.offAllNamed(Routes.HOME);
         } else {
           Get.dialog(
             Center(
@@ -42,7 +39,7 @@ class PageIndexController extends GetxController {
 
           // check distance
           double distance = Geolocator.distanceBetween(
-              -0.897697, 100.374608, position.latitude, position.longitude);
+              -0.896784, 100.372722, position.latitude, position.longitude);
 
           await updatePosition(position);
           Get.back();
@@ -72,7 +69,7 @@ class PageIndexController extends GetxController {
     String status = 'Di luar area';
 
     if (distance <= 100) {
-       status = 'Di dalam area';
+      status = 'Di dalam area';
 
       if (snapPresence.docs.length == 0) {
         await Get.defaultDialog(
@@ -96,6 +93,8 @@ class PageIndexController extends GetxController {
             Get.snackbar('Success', 'Presensi Berhasil');
           },
         );
+
+        Get.offAllNamed(Routes.HOME);
       } else {
         DocumentSnapshot<Map<String, dynamic>> todayDoc =
             await collectionReference.doc(today).get();
@@ -125,10 +124,11 @@ class PageIndexController extends GetxController {
                   },
                 });
                 Get.back();
+                Get.snackbar('Success', 'Presensi Berhasil');
               },
             );
             Get.back();
-            Get.snackbar('Success', 'Presensi Berhasil');
+            Get.offAllNamed(Routes.HOME);
           }
         } else {
           await Get.defaultDialog(
@@ -153,7 +153,7 @@ class PageIndexController extends GetxController {
             },
           );
           Get.back();
-          Get.snackbar('Success', 'Presensi Berhasil');
+          Get.offAllNamed(Routes.HOME);
         }
       }
     } else {
@@ -168,6 +168,7 @@ class PageIndexController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         padding: EdgeInsets.all(20),
       );
+      Get.offAllNamed(Routes.HOME);
     }
   }
 
@@ -224,7 +225,9 @@ class PageIndexController extends GetxController {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    Position position = await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
     return {
       'position': position,
       'message': 'Location services are enabled',

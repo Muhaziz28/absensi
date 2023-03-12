@@ -26,7 +26,7 @@ class LoginView extends GetView<LoginController> {
             ),
             Container(
               margin: const EdgeInsets.only(top: 24),
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -40,6 +40,7 @@ class LoginView extends GetView<LoginController> {
               child: Column(
                 children: [
                   TextField(
+                    autocorrect: false,
                     controller: controller.emailController,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -49,6 +50,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                   const Divider(),
                   TextField(
+                    obscureText: true,
                     controller: controller.passwordController,
                     decoration: const InputDecoration(
                       border: InputBorder.none,

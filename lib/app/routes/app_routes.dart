@@ -15,6 +15,17 @@ abstract class Routes {
   static const AGAMA = _Paths.AGAMA;
   static const UPDATE_ISTRI = _Paths.UPDATE_ISTRI;
   static const ADD_ISTRI = _Paths.ADD_ISTRI;
+  static const ANAK = _Paths.ANAK;
+  static const ADD_ANAK = _Paths.ADD_ANAK;
+  static const RIWAYAT_PENDIDIKAN = _Paths.RIWAYAT_PENDIDIKAN;
+  static const ADD_RIWAYAT_PENDIDIKAN = _Paths.ADD_RIWAYAT_PENDIDIKAN;
+  static const LIST_PERSONIL = _Paths.LIST_PERSONIL;
+  static const DETAIL_PERSONIL = _Paths.DETAIL_PERSONIL;
+  static const EDIT_ISTRI = _Paths.EDIT_ISTRI;
+  static const EDIT_ANAK = _Paths.EDIT_ANAK;
+  static const ALL_DATA_ABSENSI = _Paths.ALL_DATA_ABSENSI;
+  static const TUNJANGAN_KINERJA = _Paths.TUNJANGAN_KINERJA;
+  static const DATA_KEPOLISIAN = _Paths.DATA_KEPOLISIAN;
 }
 
 abstract class _Paths {
@@ -31,4 +42,15 @@ abstract class _Paths {
   static const AGAMA = '/agama';
   static const UPDATE_ISTRI = '/update-istri';
   static const ADD_ISTRI = '/add-istri';
+  static const ANAK = '/anak';
+  static const ADD_ANAK = '/add-anak';
+  static const RIWAYAT_PENDIDIKAN = '/riwayat-pendidikan';
+  static const ADD_RIWAYAT_PENDIDIKAN = '/add-riwayat-pendidikan';
+  static const LIST_PERSONIL = '/list-personil';
+  static const DETAIL_PERSONIL = '/detail-personil';
+  static const EDIT_ISTRI = '/edit-istri';
+  static const EDIT_ANAK = '/edit-anak';
+  static const ALL_DATA_ABSENSI = '/all-data-absensi';
+  static const TUNJANGAN_KINERJA = '/tunjangan-kinerja';
+  static const DATA_KEPOLISIAN = '/data-kepolisian';
 }

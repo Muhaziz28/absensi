@@ -12,7 +12,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-      StreamBuilder<User?>(
+    StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -27,7 +27,6 @@ void main() async {
 
         final pageController = Get.put(PageIndexController(), permanent: true);
 
-        print(snapshot.data);
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: "Application",

@@ -31,7 +31,6 @@ class AgamaController extends GetxController {
       await firestore.collection('agama').doc(id).delete();
       Get.snackbar('Berhasil', 'Berhasil menghapus agama',
           snackPosition: SnackPosition.BOTTOM);
-      print('berhasil');
     } catch (e) {
       Get.snackbar('Gagal', '${e.toString()}',
           snackPosition: SnackPosition.BOTTOM);

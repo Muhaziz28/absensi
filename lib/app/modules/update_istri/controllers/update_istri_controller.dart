@@ -32,9 +32,9 @@ class UpdateIstriController extends GetxController {
       middleText: "Apakah anda yakin ingin menghapus data istri ini?",
       textConfirm: "Ya",
       textCancel: "Tidak",
-      confirmTextColor: Colors.white,
-      cancelTextColor: Colors.white,
-      buttonColor: Colors.red,
+      confirmTextColor: Colors.red,
+      cancelTextColor: Colors.blue,
+      buttonColor: Colors.white,
       onConfirm: () async {
         Get.back();
         Get.dialog(
@@ -52,7 +52,7 @@ class UpdateIstriController extends GetxController {
         Get.snackbar("Success", "Data Istri Berhasil Dihapus");
       },
       onCancel: () {
-        Get.back();
+        // Get.back();
       },
     );
   }

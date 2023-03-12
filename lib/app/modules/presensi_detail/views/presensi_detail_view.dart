@@ -12,6 +12,7 @@ class PresensiDetailView extends GetView<PresensiDetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         title: const Text('Detail Presensi'),
         centerTitle: true,
@@ -24,7 +25,7 @@ class PresensiDetailView extends GetView<PresensiDetailController> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.all(10),
@@ -38,41 +39,43 @@ class PresensiDetailView extends GetView<PresensiDetailController> {
                             fontSize: 16, fontWeight: semiBold),
                       ),
                     ),
-                    Text('Masuk',
-                        style: blackTextStyle.copyWith(fontWeight: medium)),
+                    Text(
+                      'Masuk',
+                      style: TextStyle(
+                        fontWeight: medium,
+                        fontSize: 14,
+                        color: Colors.green,
+                      ),
+                    ),
                     Text(data['check_in'] == null
                         ? '-'
                         : '${DateFormat.jms().format(DateTime.parse(data['check_in']['date']))}'),
+                    const SizedBox(height: 5),
                     Text(
-                        data['check_in'] == null
-                            ? '-'
-                            : 'Latitude : ${data['check_in']['latitude']} , Longitude : ${data['check_in']['longitude']}',
-                        style: blackTextStyle.copyWith(fontWeight: medium)),
-// format meter',
+                      data['check_in'] == null
+                          ? '-'
+                          : 'Latitude : ${data['check_in']['latitude']} , Longitude : ${data['check_in']['longitude']}',
+                      style: TextStyle(
+                        fontWeight: medium,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
                     Text(
                         'Jarak : ${data['check_in']['distance'] == null ? '-' : '${data['check_in']['distance']} meter'}',
                         style: blackTextStyle.copyWith(fontWeight: medium)),
+                    const SizedBox(height: 5),
                     Text(
                         'Status  : ${data['check_in']['status'] == null ? '-' : data['check_in']['status']}',
                         style: blackTextStyle.copyWith(fontWeight: medium)),
-                    SizedBox(
-                      height: 10,
+                    SizedBox(height: 5),
+                    Text(
+                      'Keluar',
+                      style: TextStyle(
+                        fontWeight: medium,
+                        fontSize: 14,
+                        color: Colors.red,
+                      ),
                     ),
-                    Text('Keluar',
-                        style: blackTextStyle.copyWith(fontWeight: medium)),
-                    Text(data['check_out'] == null
-                        ? '-'
-                        : '${DateFormat.jms().format(DateTime.parse(data['check_out']?['date']))}'),
-                    Text(
-                        data['check_out'] == null
-                            ? 'Latitude : - , Longitude : -'
-                            : 'Latitude : ${data['check_out']?['latitude']} , Longitude : ${data['check_out']?['longitude']}',
-                        style: blackTextStyle.copyWith(fontWeight: medium)),
-                    Text(
-                        data['check_out'] == null
-                            ? 'Status : -'
-                            : 'Status : ${data['check_out']?['status']}',
-                        style: blackTextStyle.copyWith(fontWeight: medium)),
                   ],
                 ),
               ),

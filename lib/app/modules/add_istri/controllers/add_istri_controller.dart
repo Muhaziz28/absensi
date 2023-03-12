@@ -8,6 +8,7 @@ class AddIstriController extends GetxController {
   RxBool isLoadingAdd = false.obs;
   TextEditingController nama_istri = TextEditingController();
   TextEditingController tempat_lahir = TextEditingController();
+  TextEditingController tanggal_lahir = TextEditingController();
 
   List<String> pekerjaan = [
     'Pilih Pekerjaan Istri',
@@ -26,6 +27,13 @@ class AddIstriController extends GetxController {
     isLoadingAdd.value = true;
 
     try {
+      if (nama_istri.text.isEmpty ||
+          tempat_lahir.text.isEmpty ||
+          selectedPekerjaan.value == 'Pilih Pekerjaan Istri') {
+        isLoadingAdd.value = false;
+        Get.snackbar("Error", "Data Tidak Boleh Kosong");
+        return;
+      }
       String uid = await auth.currentUser!.uid;
       CollectionReference<Map<String, dynamic>> collectionReference =
           await firestore.collection('personil').doc(uid).collection('istri');
@@ -35,16 +43,19 @@ class AddIstriController extends GetxController {
 
       int id = snapIstri.docs.length + 1;
 
+      List<String> tanggal = tanggal_lahir.text.split('/');
+      String tanggalLahir = tanggal[0] + '/' + tanggal[1] + '/' + tanggal[2];
+
       await collectionReference.doc(id.toString()).set({
+        'id': id.toString(),
         'nama_istri': nama_istri.text,
         'tempat_lahir': tempat_lahir.text,
         'pekerjaan': selectedPekerjaan.value,
+        'tanggal_lahir': tanggalLahir,
       });
 
       Get.back();
       Get.snackbar("Success", "Data Istri Berhasil Ditambahkan");
-
-
 
       isLoadingAdd.value = false;
     } on FirebaseAuthException catch (e) {

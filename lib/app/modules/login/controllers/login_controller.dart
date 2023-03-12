@@ -11,7 +11,6 @@ class LoginController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> login() async {
-    // print(emailController.text);
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       Get.snackbar("Error", "Semua Field Harus Diisi",
           backgroundColor: Colors.red,
@@ -21,14 +20,12 @@ class LoginController extends GetxController {
           margin: const EdgeInsets.all(20));
     } else {
       try {
-        // sleep(const Duration(seconds: 2));
         isLoading.value = true;
         UserCredential userCredential = await auth.signInWithEmailAndPassword(
             email: emailController.text, password: passwordController.text);
 
         print(userCredential);
 
-        // verify email
         if (userCredential.user!.emailVerified) {
           isLoading.value = false;
           Get.offAllNamed(Routes.HOME);
